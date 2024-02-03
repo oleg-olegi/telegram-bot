@@ -40,7 +40,7 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
 
     private void sendWelcomeMessage(long chatId) {
         //приветственное сообщение
-        String welcomeMessage = "Привет! Добро пожаловать! Я ваш бот. Рад видеть вас!";
+        String welcomeMessage = "Добро пожаловать! Я ваш бот. Рад видеть вас!";
         //отправка сообщения в чат
         telegramBot.execute(new SendMessage(chatId, welcomeMessage));
         logger.info("Sending welcome message to chat {}: {}", chatId, welcomeMessage);
