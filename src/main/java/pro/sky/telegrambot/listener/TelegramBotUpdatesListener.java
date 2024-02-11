@@ -8,10 +8,14 @@ import com.pengrad.telegrambot.request.SendMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import pro.sky.telegrambot.model.NotificationTask;
 import pro.sky.telegrambot.service.BotService;
 
 import javax.annotation.PostConstruct;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 @Service
@@ -72,5 +76,18 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
         //отправка сообщения в чат
         telegramBot.execute(new SendMessage(chatId, welcomeMessage));
         logger.info("Sending welcome message to chat {}: {}", chatId, welcomeMessage);
+    }
+
+    @Scheduled(cron = "0/60 * * * * *")
+    public void doScheduling() {
+        logger.info("Выполнился метод исполнения по расписанию");
+        LocalDateTime localDateTime = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES);
+        botService.getNotifications(localDateTime).forEach(notificationTask -> {
+            long chatId = notificationTask.getChat_id();
+            String message = notificationTask.getNotification_task();
+            logger.info("Готовлюсь отправить напоминание");
+            telegramBot.execute(new SendMessage(chatId, message));
+            logger.info("Напоминание отправлено");
+        });
     }
 }

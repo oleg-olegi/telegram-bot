@@ -12,6 +12,7 @@ import pro.sky.telegrambot.repositories.TaskRepository;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -45,5 +46,9 @@ public class BotService {
             logger.warn("No match found for incoming message: {}", incomingMessage);
             return false;
         }
+    }
+
+    public List<NotificationTask> getNotifications(LocalDateTime dateTime) {
+        return repository.findTasksByDate(dateTime);
     }
 }
