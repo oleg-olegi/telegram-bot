@@ -19,7 +19,7 @@ import java.util.regex.Pattern;
 public class BotService {
     private final static Pattern PATTERN = Pattern.compile("([0-9\\.\\:\\s]{16})(\\s)([\\W+]+)");
     private final TaskRepository repository;
-    private Logger logger = LoggerFactory.getLogger(TelegramBotUpdatesListener.class);
+    private final Logger logger = LoggerFactory.getLogger(TelegramBotUpdatesListener.class);
 
     @Autowired
     public BotService(TaskRepository repository) {
