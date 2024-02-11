@@ -23,7 +23,6 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
     private TelegramBot telegramBot;
     @Autowired
     private BotService botService;
-    private boolean isBotRunning = true;
 
     @PostConstruct
     public void init() {
@@ -52,9 +51,6 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                 logger.info("Sending info message to chat {}: {}", chatId, infoMessage);
                 return;
             }
-            if ("/stop".equals(message.text())) {
-                stopBot(chatId);
-            }
             if (botService.addTask(message.text(), chatId)) {
                 String successMessage = "Задание успешно создано";
                 telegramBot.execute(new SendMessage(chatId, successMessage));
@@ -66,7 +62,7 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
             }
             // Process your updates here
         });
-        return isBotRunning ? UpdatesListener.CONFIRMED_UPDATES_ALL : UpdatesListener.CONFIRMED_UPDATES_NONE;
+        return UpdatesListener.CONFIRMED_UPDATES_ALL;
     }
 
     private void sendWelcomeMessage(long chatId) {
@@ -76,11 +72,5 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
         //отправка сообщения в чат
         telegramBot.execute(new SendMessage(chatId, welcomeMessage));
         logger.info("Sending welcome message to chat {}: {}", chatId, welcomeMessage);
-    }
-
-    private void stopBot(long chatId) {
-        isBotRunning = false;
-        telegramBot.execute(new SendMessage(chatId, "Бот был остановлен."));
-        logger.info("Bot has been stopped");
     }
 }
