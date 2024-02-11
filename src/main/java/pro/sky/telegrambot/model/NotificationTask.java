@@ -5,22 +5,22 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
-@Table(name = "tasks")
+@Table(name = "notification_task")
 public class NotificationTask {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @Column(name = "chat_id")
-    private int chat_id;
-    @Column(name = "notification_task")
+    private Long chat_id;
+    @Column(name = "text_notification")
     private String notification_task;
-    @Column(name = "scheduled_time")
+    @Column(name = "date")
     private LocalDateTime date;
 
     public NotificationTask() {
     }
 
-    public NotificationTask(int chat_id, String notification_task, LocalDateTime date) {
+    public NotificationTask(Long chat_id, String notification_task, LocalDateTime date) {
         this.chat_id = chat_id;
         this.notification_task = notification_task;
         this.date = date;
@@ -34,11 +34,11 @@ public class NotificationTask {
         this.id = id;
     }
 
-    public int getChat_id() {
+    public Long getChat_id() {
         return chat_id;
     }
 
-    public void setChat_id(int chat_id) {
+    public void setChat_id(Long chat_id) {
         this.chat_id = chat_id;
     }
 

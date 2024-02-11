@@ -1,10 +1,9 @@
 -- liquibase formatted sql
-
 --changeSet Oleg:1
-CREATE TABLE tasks
+CREATE TABLE notification_task
 (
     id                SERIAL PRIMARY KEY,
-    chat_id           INTEGER    NOT NULL,
-    notification_task VARCHAR(255),
-    scheduled_time    TIMESTAMP NOT NULL
+    chat_id           INTEGER,
+    text_notification TEXT,
+    date              TIMESTAMP
 );
