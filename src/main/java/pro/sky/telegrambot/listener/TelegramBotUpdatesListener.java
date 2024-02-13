@@ -77,17 +77,4 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
         telegramBot.execute(new SendMessage(chatId, welcomeMessage));
         logger.info("Sending welcome message to chat {}: {}", chatId, welcomeMessage);
     }
-
-    @Scheduled(cron = "0/60 * * * * *")
-    public void doScheduling() {
-        logger.info("Выполнился метод исполнения по расписанию");
-        LocalDateTime localDateTime = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES);
-        botService.getNotifications(localDateTime).forEach(notificationTask -> {
-            long chatId = notificationTask.getChat_id();
-            String message = notificationTask.getNotification_task();
-            logger.info("Готовлюсь отправить напоминание");
-            telegramBot.execute(new SendMessage(chatId, message));
-            logger.info("Напоминание отправлено");
-        });
-    }
 }
